@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    @include('Components.meta')
     <title>@yield('title') - {{ env('APP_NAME') }}</title>
     @vite('resources/js/app.js')
     <link rel="icon" href="/favicon.png" type="image/x-icon">

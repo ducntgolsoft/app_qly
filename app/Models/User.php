@@ -15,6 +15,7 @@ class User extends Authentication
     public const ROLE_STUDENT = 'student';
     public const ROLE_MANAGER = 'manager';
     protected $fillable = [
+        'code',
         'name',
         'email',
         'phone',

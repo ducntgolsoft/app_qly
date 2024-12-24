@@ -13,13 +13,9 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('email')->unique()->nullable();
-            $table->string('password')->nullable();
-            $table->string('avatar')->nullable();
-            $table->string('role')->default('student');
-            $table->string('status')->default('active');
+            $table->string('username')->unique();
+            $table->string('password');
+            $table->enum('role', ['student', 'admin'])->default('student');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

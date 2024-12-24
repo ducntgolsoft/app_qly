@@ -15,16 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            AddressSeeder::class,
-            CountriesTableSeeder::class,
-        ]);
-
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('Gol2023@12'),
-            'role' => 'admin',
-        ]);
+        
     }
 }

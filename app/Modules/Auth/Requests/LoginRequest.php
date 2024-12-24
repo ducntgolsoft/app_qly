@@ -16,7 +16,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'userInfo' => ['required', new LoginRule()],
+            'userInfo' => ['required'],
             'password' => 'required|min:6',
             'rememberMe' => 'nullable'
         ];
@@ -25,9 +25,9 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'userInfo.required' => 'Email/Số điện thoại không được để trống',
-            'userInfo.exists' => 'Email/Số điện thoại không tồn tại',
-            'userInfo.regex' => 'Email/Số điện thoại không đúng định dạng',
+            'userInfo.required' => 'MSV/MNV không được để trống',
+            'userInfo.exists' => 'MSV/MNV không tồn tại',
+            'userInfo.regex' => 'MSV/MNV không đúng định dạng',
             'password.required' => 'Mật khẩu không được để trống',
             'password.min' => 'Mật khẩu phải chứa ít nhất 6 ký tự',
         ];
