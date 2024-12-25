@@ -13,7 +13,7 @@
             </label>
             <input
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="username" name="username" type="text" placeholder="Username" value="{{ old('username', $student->username) }}">
+                id="username" name="username" type="text" placeholder="Username" value="{{ old('username', $student->user->username) }}">
             @error('username')
                 <p class="text-red-500 text-xs italic">{{ $message }}</p>
             @enderror

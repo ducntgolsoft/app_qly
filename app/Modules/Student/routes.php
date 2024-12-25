@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-Route::prefix('students')->as('students.')->group(function () {
+Route::middleware('auth')->prefix('students')->as('students.')->group(function () {
+    // view index
     Route::get('/', function () {
         $students = Student::all();
         return view('Student::index', [
@@ -14,10 +15,12 @@ Route::prefix('students')->as('students.')->group(function () {
         ]);
     })->name('index');
 
+    // view create
     Route::get('/create', function () {
         return view('Student::create');
     })->name('create');
 
+    // view edit
     Route::get('/edit/{id}', function ($id) {
         $student = Student::find($id);
         if(!$student) {
@@ -53,7 +56,7 @@ Route::prefix('students')->as('students.')->group(function () {
     })->name('store');
 
     // update
-    Route::post('/update/{id}', function (Request $request, $id) {
+    Route::put('/update/{id}', function (Request $request, $id) {
         $username = $request->input('username');
         $full_name = $request->input('full_name');
         $class = $request->input('class');
@@ -61,9 +64,15 @@ Route::prefix('students')->as('students.')->group(function () {
         $email = $request->input('email');
         $phone = $request->input('phone');
         $user = User::find($id);
-        $user->update([
-            'username' => $username,
-        ]);
+        $checkUser = User::where('username', $username)->first();
+        if($checkUser) {
+            return redirect()->route('students.edit', ['id' => $id])->with('error', 'Username is exist');
+        }
+        if($username != $user->username) {
+            $user->update([
+                'username' => $username,
+            ]);
+        }
         $user->student()->update([
             'full_name' => $full_name,
             'class' => $class,
@@ -71,7 +80,6 @@ Route::prefix('students')->as('students.')->group(function () {
             'email' => $email,
             'phone' => $phone,
         ]);
-
         return redirect()->route('students.index')->with('success', 'Student updated successfully');
     })->name('update');
 
@@ -80,7 +88,6 @@ Route::prefix('students')->as('students.')->group(function () {
         $user = User::find($id);
         $user->student()->delete();
         $user->delete();
-
         return redirect()->route('students.index')->with('success', 'Student deleted successfully');
     })->name('delete');
 });
