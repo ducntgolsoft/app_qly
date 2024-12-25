@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* #barChart{
+    background-color: grey;
+    border-radius: 6px;
+} */
+    

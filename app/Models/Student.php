@@ -23,8 +23,8 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function grades()
+    public function result()
     {
-        return $this->hasMany(Grade::class);
+        return $this->hasMany(Result::class);
     }
 }

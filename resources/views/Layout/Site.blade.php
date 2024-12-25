@@ -10,12 +10,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.5/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
     @stack('css')
 </head>
 
 <body>
-
-    <!-- ========== HEADER ========== -->
     <header
         class="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-[48] w-full bg-white border-b text-sm py-2.5 lg:ps-[260px]">
         <nav class="px-4 sm:px-6 flex basis-full items-center w-full mx-auto">
@@ -89,9 +88,6 @@
             </div>
         </nav>
     </header>
-    <!-- ========== END HEADER ========== -->
-
-    <!-- ========== MAIN CONTENT ========== -->
     <div class="-mt-px">
         <!-- Breadcrumb -->
         <div class="sticky top-0 inset-x-0 z-20 bg-white border-y px-4 sm:px-6 lg:px-8 lg:hidden">
@@ -131,18 +127,16 @@
         </div>
         <!-- End Breadcrumb -->
     </div>
-
-    <!-- Sidebar -->
     <div id="hs-application-sidebar"
         class="hs-overlay  [--auto-close:lg]
-    hs-overlay-open:translate-x-0
-    -translate-x-full transition-all duration-300 transform
-    w-[260px] h-full
-    hidden
-    fixed inset-y-0 start-0 z-[60]
-    bg-white border-e border-gray-200
-    lg:block lg:translate-x-0 lg:end-auto lg:bottom-0
-   "
+            hs-overlay-open:translate-x-0
+            -translate-x-full transition-all duration-300 transform
+            w-[260px] h-full
+            hidden
+            fixed inset-y-0 start-0 z-[60]
+            bg-white border-e border-gray-200
+            lg:block lg:translate-x-0 lg:end-auto lg:bottom-0
+        "
         role="dialog" tabindex="-1" aria-label="Sidebar">
         <div class="relative flex flex-col h-full max-h-full">
             <div class="px-6 pt-4">
@@ -172,33 +166,60 @@
                             </a>
                         </li>
 
-
-                        <li><a class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 {{ Route::is('students.*') ? 'bg-gray-100' : '' }}"
-                                href="/students">
-                                <i class="fas fa-user-graduate"></i>
-                                Student
-                            </a></li>
-                        <li><a class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 {{ Route::is('courses.*') ? 'bg-gray-100' : '' }}"
-                                href="/courses">
-                                <i class="fas fa-book"></i>
-                                Course
-                            </a></li>
+                        @if (auth()->user()->role == 'admin')
+                            <li>
+                                <a class="w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 {{ Route::is('students.*') ? 'bg-gray-100' : '' }}"
+                                    href="/students">
+                                    <i class="fas fa-user-graduate"></i>
+                                    Student
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
             </div>
             <!-- End Content -->
         </div>
     </div>
-    <!-- End Sidebar -->
-
-    <!-- Content -->
     <div class="w-full lg:ps-64">
         <div class="p-4 sm:p-6 space-y-4 sm:space-y-6">
+            @if (Session::has('error'))
+                <div class="alert mt-2 bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500"
+                    role="alert" tabindex="-1" aria-labelledby="hs-soft-color-danger-label">
+                    {{ Session::get('error') }}
+                </div>
+            @endif
+            @if (Session::has('success'))
+                <div class="alert mt-2 bg-green-100 border border-green-200 text-sm text-green-800 rounded-lg p-4 dark:bg-green-800/10 dark:border-green-900 dark:text-green-500"
+                    role="alert" tabindex="-1" aria-labelledby="hs-soft-color-warning-label">
+                    {{ Session::get('success') }}
+                </div>
+            @endif
             @yield('content')
         </div>
     </div>
-    <!-- End Content -->
-    <!-- ========== END MAIN CONTENT ========== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').each(function() {
+                $(this).select2({
+                    placeholder: $(this).attr('placeholder'),
+                    width: '100%'
+                });
+            });
+        });
+    </script>
+    @stack('js')
+    <script>
+        @if (Session::has('error') || Session::has('success'))
+            setTimeout(() => {
+                document.querySelectorAll('.alert').forEach(alert => {
+                    alert.remove();
+                });
+            }, 5000);
+        @endif
+    </script>
 </body>
 
 </html>
