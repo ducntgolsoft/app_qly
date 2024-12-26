@@ -13,7 +13,8 @@ class User extends Authentication
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
     public const ROLE_STUDENT = 'student';
-    public const ROLE_MANAGER = 'admin';
+    public const ROLE_MANAGER = 'manager';
+    public const ROLE_ADMIN = 'admin';
     protected $fillable = [
         'username',
         'password',
